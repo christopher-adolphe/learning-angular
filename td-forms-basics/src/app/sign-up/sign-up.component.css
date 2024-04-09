@@ -1,0 +1,11 @@
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.form-control.ng-touched.ng-invalid  {
+  border-color: #a94442;
+}
+
+.form-group .text-danger {
+  color: #a94442 !important;
+}

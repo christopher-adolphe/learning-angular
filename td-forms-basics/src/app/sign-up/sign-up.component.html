@@ -1,0 +1,47 @@
+<ng-container *ngIf="!isFormSubmitted; else signUpDataTpl">
+  <h3>Sign Up</h3>
+
+  <form #signUpForm="ngForm" class="mt-2" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="email" class="control-label">Email</label>
+      <input type="text" id="email" class="form-control" name="email" email ngModel required #email="ngModel">
+      <span class="block-help text-danger" *ngIf="!email.valid && (email.dirty || email.touched)">Email is required</span>
+    </div>
+  
+    <div class="form-group">
+      <label for="password" class="control-label">Password</label>
+      <input type="password" id="password" class="form-control" name="password" ngModel required #password="ngModel">
+      <span class="block-help text-danger" *ngIf="!password.valid && (password.dirty || password.touched)">Password is required</span>
+    </div>
+  
+    <div class="form-group">
+      <label for="subscription" class="control-label">Subscription type</label>
+      <select id="subscription" class="form-control" name="subscription" [ngModel]="subscriptionTypes[1]" required #subscription="ngModel">
+        <option value=""></option>
+        <option *ngFor="let subscription of subscriptionTypes" [value]="subscription">{{ subscription }}</option>
+      </select>
+      <span class="block-help text-danger" *ngIf="!subscription.valid && (subscription.dirty || subscription.touched)">Subscription type is required</span>
+    </div>
+  
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" [disabled]="!signUpForm.valid">Submit</button>
+    </div>
+  
+    <div class="form-group">
+      <span class="block-help text-danger" *ngIf="!signUpForm.valid && signUpForm.touched">The form is invalid, please make sure all information is filled.</span>
+    </div>
+  </form>
+</ng-container>
+
+<ng-template #signUpDataTpl>
+  <h3>List of signed up users</h3>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let user of usersList; let i = index">
+      <p>Email: {{ signUpData.email }}</p>
+      <p>Password: {{ signUpData.password }}</p>
+      <p>Subscription: {{ signUpData.subscription }}</p>
+    </li>
+  </ul>
+  <button type="button" class="btn btn-primary" (click)="onShowForm()">Back to Sign up form</button>
+</ng-template>

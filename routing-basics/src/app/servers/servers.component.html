@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-4">
+    <div class="list-group">
+      <!-- Using routerLink directive to build a route with parameters -->
+      <!-- Using queryParams to add query parameters to the route -->
+      <!-- Using fragment to add a fragment to the route -->
+      <a
+        [routerLink]="['/servers', server.id]"
+        [queryParams]="{allowEdit: server.id === 3 ? '1' : '0'}"
+        [fragment]="'loading'"
+        *ngFor="let server of servers"
+        class="list-group-item">
+        {{ server.name }}
+      </a>
+    </div>
+
+    <button class="btn btn-primary" (click)="onReload()">Reload</button>
+  </div>
+  <div class="col-xs-12 col-sm-4">
+    <router-outlet></router-outlet>
+    <!-- <app-edit-server></app-edit-server>
+    <hr>
+    <app-server></app-server> -->
+  </div>
+</div>
