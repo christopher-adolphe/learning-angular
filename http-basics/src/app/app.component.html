@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col-xs-12 col-md-6">
+      <form [formGroup]="blogPostForm" (ngSubmit)="onCreatePost()" novalidate>
+        <div class="form-group" [ngClass]="{
+          'has-success': title.valid && (title.dirty || title.touched),
+          'has-error': title.invalid && (title.dirty || title.touched)
+        }">
+          <label for="title" class="control-label">Title</label>
+          <input type="text" id="title" class="form-control" name="title" formControlName="title"/>
+          <ng-container *ngIf="title.errors && (title.dirty || title.touched)">
+            <span class="help-block text-danger">Title is required</span>
+          </ng-container>
+        </div>
+
+        <div class="form-group" [ngClass]="{
+          'has-success': post.valid && (post.dirty || post.touched),
+          'has-error': post.invalid && (post.dirty || post.touched)
+        }">
+          <label for="post" class="control-label">Post content</label>
+          <textarea id="post" rows="4" class="form-control" name="post" formControlName="post"></textarea>
+          <ng-container *ngIf="post.errors && (post.dirty || post.touched)">
+            <span class="help-block text-danger">Post content is required</span>
+          </ng-container>
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="!blogPostForm.valid">Send Post</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-xs-12 col-md-6 mt-2">
+      <button class="btn btn-primary" (click)="onFetchPosts()">Fetch Posts</button>
+      &nbsp;|&nbsp;
+      <button class="btn btn-danger" [disabled]="posts.length < 1" (click)="onClearPosts()">Clear Posts</button>
+
+      <hr>
+
+      <p *ngIf="posts.length < 1">No posts available!</p>
+
+      <ng-container *ngIf="isFetching && !error">
+        <div class="loader">
+          <img src="../assets/loader/puff.svg" width="50" alt="Fetching posts">
+        </div>
+      </ng-container>
+
+      <ul class="list-group" *ngIf="posts.length >= 1">
+        <li class="list-group-item" *ngFor="let post of posts">
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.post }}</p>
+        </li>
+      </ul>
+
+      <div class="alert alert-danger" *ngIf="error">
+        <h3>An error occured!</h3>
+        <p>{{ error }}</p>
+        <button class="btn btn-danger" (click)="onHandleError()">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
